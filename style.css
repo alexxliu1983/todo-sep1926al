@@ -38,12 +38,12 @@ header {
 }
 
 h1 {
-  color: #000;
+  color: #d81b60;
 }
 
-/* black on the dark navy background would be unreadable */
+/* a lighter pink stays readable on the dark navy background */
 :root[data-theme="dark"] h1 {
-  color: var(--text);
+  color: #f48fb1;
 }
 
 #add-form {
