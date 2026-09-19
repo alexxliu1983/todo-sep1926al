@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>To-Do App Security Review</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 40px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-card.high {
+      background: #fee;
+      border-left: 4px solid #c62828;
+    }
+    .stat-card.medium {
+      background: #fef5e7;
+      border-left: 4px solid #e65100;
+    }
+    .stat-card.low {
+      background: #f0f9f0;
+      border-left: 4px solid #2e7d32;
+    }
+    .stat-card.good {
+      background: #e8f5e9;
+      border-left: 4px solid #1b5e20;
+    }
+    .stat-card h3 {
+      font-size: 2.5em;
+      margin-bottom: 8px;
+    }
+    .stat-card p {
+      color: #666;
+      font-size: 0.95em;
+    }
+    .issues {
+      margin-bottom: 40px;
+    }
+    .issue {
+      margin-bottom: 30px;
+      border-left: 4px solid #e65100;
+      padding-left: 20px;
+    }
+    .issue.high {
+      border-left-color: #c62828;
+    }
+    .issue.low {
+      border-left-color: #2e7d32;
+    }
+    .issue-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .severity-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+    }
+    .severity-badge.high {
+      background: #c62828;
+      color: white;
+    }
+    .severity-badge.medium {
+      background: #e65100;
+      color: white;
+    }
+    .severity-badge.low {
+      background: #2e7d32;
+      color: white;
+    }
+    .issue h3 {
+      margin: 0;
+      font-size: 1.3em;
+    }
+    .issue-content {
+      color: #333;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+    .code-snippet {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    .strengths {
+      background: #f0f9f0;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+    .strengths h2 {
+      color: #1b5e20;
+      margin-bottom: 20px;
+    }
+    .strength-list {
+      list-style: none;
+    }
+    .strength-list li {
+      padding: 10px 0;
+      padding-left: 30px;
+      position: relative;
+      color: #333;
+    }
+    .strength-list li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #2e7d32;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .recommendations {
+      background: #fff3e0;
+      padding: 30px;
+      border-radius: 8px;
+    }
+    .recommendations h2 {
+      color: #e65100;
+      margin-bottom: 20px;
+    }
+    .rec-section {
+      margin-bottom: 20px;
+    }
+    .rec-section h3 {
+      color: #e65100;
+      font-size: 1.1em;
+      margin-bottom: 12px;
+    }
+    .rec-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .rec-list li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+    .rec-list li:before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #e65100;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛡️ To-Do App Security Review</h1>
+      <p>Comprehensive security analysis and recommendations</p>
+    </header>
+
+    <div class="content">
+      <div class="summary">
+        <div class="stat-card medium">
+          <h3>6</h3>
+          <p>Issues Identified</p>
+        </div>
+        <div class="stat-card high">
+          <h3>0</h3>
+          <p>High Severity</p>
+        </div>
+        <div class="stat-card medium">
+          <h3>1</h3>
+          <p>Medium Severity</p>
+        </div>
+        <div class="stat-card low">
+          <h3>5</h3>
+          <p>Low Severity</p>
+        </div>
+        <div class="stat-card good">
+          <h3>5</h3>
+          <p>Strengths Found</p>
+        </div>
+      </div>
+
+      <div class="issues">
+        <h2 style="margin-bottom: 30px;">Issues Identified</h2>
+
+        <div class="issue medium">
+          <div class="issue-header">
+            <h3>Unvalidated Priority Assignment</h3>
+            <span class="severity-badge medium">MEDIUM</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> app.js:121-125</p>
+            <p>When users change a task's priority, the value is assigned without validation. While the UI dropdown only shows valid options, an attacker using developer tools could inject invalid values.</p>
+            <div class="code-snippet">priority.addEventListener('change', () => {
+  task.priority = priority.value;  // No validation
+  save();
+});</div>
+            <p><strong>Fix:</strong> Add validation before assignment to ensure only valid priorities are saved.</p>
+          </div>
+        </div>
+
+        <div class="issue low">
+          <div class="issue-header">
+            <h3>Plaintext localStorage Storage</h3>
+            <span class="severity-badge low">LOW</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> app.js: storage functions</p>
+            <p>All task data and preferences are stored in plaintext, visible in browser DevTools and readable by other scripts on the same domain.</p>
+            <p><strong>Recommendation:</strong> Document this limitation. For sensitive tasks, implement client-side encryption.</p>
+          </div>
+        </div>
+
+        <div class="issue low">
+          <div class="issue-header">
+            <h3>No Input Length Validation</h3>
+            <span class="severity-badge low">LOW</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> app.js:205-213</p>
+            <p>Task text has no length restrictions, allowing extremely long strings that could degrade performance or exhaust memory.</p>
+            <p><strong>Recommendation:</strong> Add a reasonable length limit (e.g., 500 characters) with validation.</p>
+          </div>
+        </div>
+
+        <div class="issue low">
+          <div class="issue-header">
+            <h3>Predictable Task IDs</h3>
+            <span class="severity-badge low">LOW</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> app.js:209</p>
+            <p>Tasks use Date.now() as IDs, which are predictable and could collide if multiple tasks are created within the same millisecond.</p>
+            <p><strong>Recommendation:</strong> Use crypto.getRandomValues() or add a random component for better ID generation.</p>
+          </div>
+        </div>
+
+        <div class="issue low">
+          <div class="issue-header">
+            <h3>Missing Content Security Policy</h3>
+            <span class="severity-badge low">LOW</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> index.html</p>
+            <p>No CSP headers defined to prevent certain injection attacks.</p>
+            <p><strong>Recommendation:</strong> Add CSP meta tag: <code>&lt;meta http-equiv="Content-Security-Policy"&gt;</code></p>
+          </div>
+        </div>
+
+        <div class="issue low">
+          <div class="issue-header">
+            <h3>Limited Error Handling for Corrupted Data</h3>
+            <span class="severity-badge low">LOW</span>
+          </div>
+          <div class="issue-content">
+            <p><strong>Location:</strong> app.js:26-35</p>
+            <p>If localStorage data is corrupted, the app silently returns an empty array, potentially losing user tasks.</p>
+            <p><strong>Recommendation:</strong> Add logging and more defensive validation to recover from corrupted data.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="strengths">
+        <h2>Security Strengths</h2>
+        <ul class="strength-list">
+          <li><strong>Safe HTML Rendering:</strong> Uses textContent instead of innerHTML, preventing XSS attacks</li>
+          <li><strong>Priority Validation on Load:</strong> Invalid priorities are normalized to 'medium' on startup</li>
+          <li><strong>No Dynamic Code Execution:</strong> Avoids eval(), innerHTML with user data, or dynamic code</li>
+          <li><strong>Graceful Error Handling:</strong> Try-catch blocks prevent localStorage errors from crashing the app</li>
+          <li><strong>Good Accessibility:</strong> ARIA attributes properly implemented without security gaps</li>
+        </ul>
+      </div>
+
+      <div class="recommendations">
+        <h2>Recommendations by Priority</h2>
+
+        <div class="rec-section">
+          <h3>🔴 High Priority</h3>
+          <ul class="rec-list">
+            <li>None identified - no critical security holes found</li>
+          </ul>
+        </div>
+
+        <div class="rec-section">
+          <h3>🟠 Medium Priority</h3>
+          <ul class="rec-list">
+            <li>Add priority validation on assignment (Issue #1)</li>
+          </ul>
+        </div>
+
+        <div class="rec-section">
+          <h3>🟢 Low Priority</h3>
+          <ul class="rec-list">
+            <li>Add input length validation</li>
+            <li>Improve task ID generation</li>
+            <li>Add Content Security Policy header</li>
+            <li>Enhance error handling for corrupted data</li>
+            <li>Document localStorage plaintext limitation</li>
+          </ul>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 8px;">
+          <h3 style="color: #333;">Overall Assessment</h3>
+          <p style="color: #666; line-height: 1.8;">The to-do app is <strong>generally secure</strong> for its intended use as a simple client-side application. The use of textContent for rendering and validation of critical values prevents most common web vulnerabilities. If expanded to handle sensitive data or server sync, additional security measures like HTTPS, authentication, and encryption should be implemented.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

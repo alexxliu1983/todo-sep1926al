@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>To-Do</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>To-Do</h1>
+      <button id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
+    </header>
+    <form id="add-form">
+      <input id="new-task" type="text" placeholder="Add a task..." autocomplete="off" aria-label="New task">
+      <input id="new-due-date" type="date" aria-label="Due date">
+      <select id="new-priority" aria-label="Priority">
+        <option value="high">High</option>
+        <option value="medium" selected>Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+    <input id="search" type="search" placeholder="Search tasks..." autocomplete="off" aria-label="Search tasks">
+    <ul id="task-list"></ul>
+    <footer id="task-footer">
+      <span id="counter"></span>
+      <div id="filters" role="group" aria-label="Filter tasks">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="active" aria-pressed="false">Active</button>
+        <button type="button" data-filter="done" aria-pressed="false">Done</button>
+      </div>
+      <button id="clear-done" type="button">Clear completed</button>
+    </footer>
+  </main>
+  <div id="undo-bar" hidden>
+    <span id="undo-message"></span>
+    <button id="undo-button" type="button">Undo</button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
