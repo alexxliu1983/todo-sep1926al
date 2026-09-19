@@ -37,6 +37,15 @@ header {
   justify-content: space-between;
 }
 
+h1 {
+  color: #000;
+}
+
+/* black on the dark navy background would be unreadable */
+:root[data-theme="dark"] h1 {
+  color: var(--text);
+}
+
 #add-form {
   display: flex;
   gap: 8px;
